@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <meta charset="utf-8"/>
+    <script>
+        $(document).ready(function () {
+            $('#formElem').submit(function (e) {
+                e.preventDefault();
+                $('.info').css('background', '#A89FC6');
+                $('.info').text("Ожидайте :)");
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: {type_service: $('select[name=type]').val(), id: $("input[name=userID]").val()},
+                    success: function (data) {
+                         data = $.parseJSON(data);
+                         if(data.status == 'error'){
+                         $('.info').text(data.msg);
+                         $('.info').css('display', 'block');
+                         $('.info').css('background', 'red');
+                         }else{
+                             $('.info').css('display', 'block');
+                           $('.info').html("<a href='download/" + data.link + "'>Скачать zip архив</a>");
+                         }
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+<div id="content">
+    <div id="wrapper">
+        <div id="steps">
+            <form id="formElem" name="formElem" action="/get" method="post">
+                <fieldset class="step">
+                    <legend>Выборка</legend>
+                    <div class="info">awd</div>
+                    <p>
+                        <label >Социальная сеть</label>
+                        <select name="type">
+                            <option>VK</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label>Идентификатор</label>
+                        <input name="userID" required/>
+                    </p>
+                    <button id="registerButton" type="submit">Сканировать</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
