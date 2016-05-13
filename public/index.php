@@ -2,9 +2,6 @@
 
 require_once '../vendor/autoload.php';
 
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $route) {
     $route->addRoute('POST', '/get', 'get');
     $route->addRoute('GET', '/', 'home');
